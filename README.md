@@ -36,9 +36,3 @@ This is a simple Patient Management System implemented using Flask, a web framew
 
 - Navigate to [http://localhost:8000/login](http://localhost:8000/login) to log in.
 - Once logged in, you can add new patients, schedule follow-ups, and view patient details.
-
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
