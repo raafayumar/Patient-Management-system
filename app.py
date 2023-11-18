@@ -165,7 +165,7 @@ def follow_up(patient_id):
                 today = datetime.today()
                 next_follow_up_date = today + timedelta(days=follow_up_days)
                 next_follow_up_date_str = next_follow_up_date.strftime('%Y-%m-%d')
-                file.write(f'Medicine days: {follow_up_days}\n')
+                file.write(f"Medicine days from {datetime.today().strftime('%Y-%m-%d')}: {follow_up_days}\n")
                 file.write(f'Next Follow-up Date: {next_follow_up_date_str}\n')
 
         with open(file_path, 'r') as file:
@@ -204,7 +204,7 @@ def add_follow_up(patient_id):
         add_follow_up_to_file(file_path, diagnosis, prescription)
 
         # Redirect to view_patient page with the updated details
-        return redirect(url_for('view_patient', patient_id=patient_id))
+        return redirect(url_for('follow_up', patient_id=patient_id))
 
     # Read patient details from the file
     with open(file_path, 'r') as file:
@@ -277,6 +277,7 @@ def upcoming_follow_ups():
 
         patient = {}
         for line in patient_data:
+            # print(patient_file)
             key, value = line.strip().split(': ')
             if 'Diagnosis' or 'Complaints & History' or 'Prescription' in key:
                 # If the value is wrapped in square brackets, remove them and split the content
