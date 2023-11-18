@@ -9,7 +9,7 @@ file_path = ''
 patient = {}
 
 app = Flask(__name__)
-app.secret_key = 'your'
+app.secret_key = '47c27afab0bd14cdec75933666c92a587038f57c11c2a68a59d3b9800fb1d755'
 
 users = {
     'razik': '123',
