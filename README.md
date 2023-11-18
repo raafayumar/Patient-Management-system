@@ -14,7 +14,7 @@ This is a simple Patient Management System implemented using Flask, a web framew
 1. Clone the repository:
 
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/raafayumar/Patient-Management-system.git
     cd Patient-Management-System
     ```
 
