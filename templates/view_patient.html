@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>View Patient</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Patient Details</h1>
+        <table>
+
+            {% for key, value in patient.items() %}
+                <tr>
+                    <td><strong>{{ key }}</strong></td>
+                    <td>{{ value|replace("'", "") }}</td>
+                </tr>
+            {% endfor %}
+        </table><br>
+        <div class="button-container">
+            <a class="button" href="/add_patient">Add New Patient</a><br><br>
+            <a class="button" href="/add_follow_up/{{ patient_id }}">Add New Follow-up</a><br><br>
+            <a class="button" href="/">Back</a>
+        </div>
+    </div>
+</body>
+
+</html>

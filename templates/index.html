@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Patient Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .header {
+            text-align: center;
+            padding: 100px;
+            background-color: #e0f2f1; /* Light Blue */
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #009688; /* Darker Shade of Light Blue */
+        }
+
+        p {
+            font-size: 18px;
+            color: #333333;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #009688; /* Darker Shade of Light Blue */
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 10px;
+        }
+
+        .button:hover {
+            background-color: #00796b; /* Slightly Darker Shade of Light Blue */
+        }
+    </style>
+</head>
+<body>
+   <div class="header">
+    <h1>Welcome to the Patient Management System</h1>
+    {% if 'username' in session %}
+        <p>Welcome, Dr.{{ username }}!</p> <!-- Display the username -->
+        <div class="button-container">
+            <a class="button" href="/add_patient">Add New Patient</a>
+            <a class="button" href="/view_patient">View Patient</a>
+            <a class="button" href="/scheduled_follow_up">Scheduled Follow-ups</a>
+            <a class="button" href="/logout">Logout</a>
+        </div>
+    {% else %}
+        <div class="button-container">
+            <a class="button" href="/login">Login</a>
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>

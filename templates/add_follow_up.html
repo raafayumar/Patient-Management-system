@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Follow-up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Patient Details</h1>
+        <table>
+
+            {% for key, value in patient.items() %}
+                <tr>
+                    <td><strong>{{ key }}</strong></td>
+                    <td>{{ value|replace("'", "") }}</td>
+                </tr>
+            {% endfor %}
+        </table><br>
+        <form action="{{ url_for('add_follow_up', patient_id=patient_id) }}" method="POST">
+            <label for="diagnosis">New Diagnosis:</label>
+            <textarea id="diagnosis" name="diagnosis" required></textarea><br>
+
+            <label for="prescription">New Prescription:</label>
+            <textarea id="prescription" name="prescription" required></textarea><br>
+
+            <input type="submit" value="Submit">
+        </form>
+        <a href="/">Back</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Search Patients</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+         <h1>Search Patients</h1>
+         <p>You have {{ num_patients }} patients.</p> <!-- Display the number of patients -->
+    <form action="/search_patient" method="post">
+        <input type="text" name="search_input" placeholder="Enter ID or Contact Number" required>
+        <button type="submit">Search</button><br><br>
+    </form>
+    <a href="/">Back</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Follow-up Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Follow-up Form</h1>
+        <form action="{{ url_for('follow_up', patient_id=patient_id) }}" method="POST">
+            <input type="hidden" name="patient_id" value="{{ patient_id }}">
+            <input type="hidden" name="name" value="{{ name }}">
+            <input type="hidden" name="contact_number" value="{{ contact_number }}">
+
+            <label for="follow_up_required">Follow-up required:</label>
+            <select id="follow_up_required" name="follow_up_required" required>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br><br>
+
+            <div id="follow_up_days" style="display:none;">
+                <label for="follow_up_days">Number of Medicine Days:</label>
+                <input type="number" id="follow_up_days" name="follow_up_days" min="1">
+            </div><br><br>
+
+            <button type="submit">Submit</button><br><br>
+        </form>
+
+        <a href="/">Back</a>
+    </div>
+
+    <script>
+        document.getElementById('follow_up_required').addEventListener('change', function() {
+            var followUpDays = document.getElementById('follow_up_days');
+            followUpDays.style.display = this.value === 'Yes' ? 'block' : 'none';
+
+            // Remove the 'required' attribute if 'No' is selected
+            if (this.value === 'No') {
+                document.getElementById('follow_up_days').removeAttribute('required');
+            } else {
+                // Add the 'required' attribute if 'Yes' is selected
+                document.getElementById('follow_up_days').setAttribute('required', 'required');
+            }
+        });
+    </script>
+</body>
+
+</html>

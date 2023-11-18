@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome, {{ username }}!</h1>
+    </div>
+
+    <div class="container">
+        <h2>Actions:</h2>
+        <ul class="actions">
+            <li><a href="{{ url_for('add_patient') }}">Add New Patient</a></li>
+            <li><a href="{{ url_for('follow_up', patient_id=1) }}">Follow-up Visit</a></li>
+        </ul>
+
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+</body>
+</html>
