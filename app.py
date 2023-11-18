@@ -67,8 +67,17 @@ def login_required(func):
 def add_follow_up_to_file(file_path, diagnosis, prescription):
     with open(file_path, 'a') as file:
         file.write(f"Follow-up Date: {datetime.today().strftime('%Y-%m-%d')}\n")
-        file.write(f'Follow-up Diagnosis: {diagnosis}\n')
-        file.write(f'Prescription: {prescription}\n')
+        if '\n' in diagnosis:
+            new_dea = diagnosis.split('\n')
+            file.write(f"Follow-up Diagnosis on {datetime.today().strftime('%Y-%m-%d')}: {new_dea}\n")
+        else:
+            file.write(f"Follow-up Prescription on {datetime.today().strftime('%Y-%m-%d')}: {diagnosis}\n")
+
+        if '\n' in prescription:
+            new_pre = prescription.split('\n')
+            file.write(f"Follow-up Prescription on {datetime.today().strftime('%Y-%m-%d')}: {new_pre}\n")
+        else:
+            file.write(f"Follow-up Prescription on {datetime.today().strftime('%Y-%m-%d')}: {prescription}\n")
 
 
 @app.route('/')
@@ -165,7 +174,7 @@ def follow_up(patient_id):
         patient = {}
         for line in patient_data:
             key, value = line.strip().split(': ')
-            if key in ['Diagnosis', 'Complaints & History', 'Prescription']:
+            if 'Diagnosis' or 'Complaints & History' or 'Prescription' in key:
                 value = value.strip('[]').replace(r'\r', '').split(', ')
                 value = '\n'.join(value)
             patient[key] = value
@@ -178,58 +187,38 @@ def follow_up(patient_id):
 @app.route('/add_follow_up/<string:patient_id>', methods=['GET', 'POST'])
 def add_follow_up(patient_id):
     global file_path
-    print('add_follow_up')
-    print(request.method)
 
-    if request.method == 'GET':
-        for patient_file in os.listdir(path_to_data):
-            if patient_id in patient_file:
-                file_path = os.path.join(path_to_data, patient_file)
-                break
+    for patient_file in os.listdir(path_to_data):
+        if patient_id in patient_file:
+            file_path = os.path.join(path_to_data, patient_file)
+            break
 
-        if not os.path.exists(file_path):
-            return "Patient not found"
+    if not os.path.exists(file_path):
+        return "Patient not found"
 
-        with open(file_path, 'r') as file:
-            patient_data = file.readlines()
-
-        patient = {}
-        for line in patient_data:
-            key, value = line.strip().split(': ')
-            if key in ['Diagnosis', 'Complaints & History', 'Prescription']:
-                value = value.strip('[]').replace(r'\r', '').split(', ')
-                value = '\n'.join(value)
-            patient[key] = value
-
-        return render_template('add_follow_up.html', patient=patient)
-
-    elif request.method == 'POST':
-        print('POST')
+    if request.method == 'POST':
         diagnosis = request.form['diagnosis']
         prescription = request.form['prescription']
 
-        for patient_file in os.listdir(path_to_data):
-            if patient_id in patient_file:
-                file_path = os.path.join(path_to_data, patient_file)
-                break
-
-        if not os.path.exists(file_path):
-            return "Patient not found"
-
+        # Add follow-up details to the file
         add_follow_up_to_file(file_path, diagnosis, prescription)
 
-        with open(file_path, 'r') as file:
-            patient_data = file.readlines()
+        # Redirect to view_patient page with the updated details
+        return redirect(url_for('view_patient', patient_id=patient_id))
 
-        patient = {}
-        for line in patient_data:
-            key, value = line.strip().split(': ')
-            if key in ['Diagnosis', 'Complaints & History', 'Prescription']:
-                value = value.strip('[]').replace(r'\r', '').split(', ')
-                value = '\n'.join(value)
-            patient[key] = value
+    # Read patient details from the file
+    with open(file_path, 'r') as file:
+        patient_data = file.readlines()
 
-        return render_template('view_patient.html', patient_id=patient_id)
+    patient = {}
+    for line in patient_data:
+        key, value = line.strip().split(': ')
+        if 'Diagnosis' or 'Complaints & History' or 'Prescription' in key:
+            value = value.strip('[]').replace(r'\r', '').split(', ')
+            value = '\n'.join(value)
+        patient[key] = value
+
+    return render_template('add_follow_up.html', patient=patient, patient_id=patient_id)
 
 
 @app.route('/view_patient')
@@ -245,22 +234,17 @@ def search_patient():
     search_input = request.form['search_input'].upper()
 
     if len(search_input) >= 6:
-        # print(search_input)
         for patient in os.listdir(path_to_data):
-            # print(patient)
             if search_input.isnumeric() and search_input in patient:
-                print(patient)
                 file_path = os.path.join(path_to_data, patient)
 
             elif search_input.isalnum() and search_input in patient:
-                # print(patient)
                 file_path = os.path.join(path_to_data, patient)
                 break
         else:
             # file_path = None
             return "Patient not found"
 
-        # print(file_path)
     if not os.path.exists(file_path):
         return "Patient not found"
 
@@ -270,16 +254,14 @@ def search_patient():
     patient = {}
     for line in patient_data:
         key, value = line.strip().split(': ')
-        if key in ['Diagnosis', 'Complaints & History', 'Prescription']:
+        if 'Diagnosis' or 'Complaints & History' or 'Prescription' in key:
             # If the value is wrapped in square brackets, remove them and split the content
             value = value.strip('[]').replace(r'\r', '').split(', ')
             # Join the values with newlines
             value = '\n'.join(value)
-            # print(value)
         patient[key] = value
 
     return render_template('view_patient.html', patient=patient, patient_id=search_input)
-
 
 
 @app.route('/scheduled_follow_up')
@@ -296,12 +278,11 @@ def upcoming_follow_ups():
         patient = {}
         for line in patient_data:
             key, value = line.strip().split(': ')
-            if key in ['Diagnosis', 'Complaints & History', 'Prescription']:
+            if 'Diagnosis' or 'Complaints & History' or 'Prescription' in key:
                 # If the value is wrapped in square brackets, remove them and split the content
                 value = value.strip('[]').replace(r'\r', '').split(', ')
                 # Join the values with newlines
                 value = '\n'.join(value)
-                # print(value)
             patient[key] = value
 
         if 'Next Follow-up Date' in patient:
