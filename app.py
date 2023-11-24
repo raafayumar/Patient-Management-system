@@ -109,6 +109,7 @@ def add_patient():
         file_path = os.path.join(path_to_data, file_name)
 
         with open(file_path, 'w') as file:
+            file.write(f'UID: {patient_id}\n')
             file.write(f"Date: {datetime.today().strftime('%Y-%m-%d')}\n")
             file.write(f'Name: {name}\n')
             file.write(f'Sex: {sex}\n')
@@ -237,15 +238,18 @@ def search_patient():
         for patient in os.listdir(path_to_data):
             if search_input.isnumeric() and search_input in patient:
                 file_path = os.path.join(path_to_data, patient)
-
+                print("number")
+                print(file_path)
             elif search_input.isalnum() and search_input in patient:
                 file_path = os.path.join(path_to_data, patient)
+                print("alpha")
                 break
-        else:
-            # file_path = None
-            return "Patient not found"
+            else:
+                # file_path = None
+                return "Patient not found"
 
     if not os.path.exists(file_path):
+        print("no")
         return "Patient not found"
 
     with open(file_path, 'r') as file:
