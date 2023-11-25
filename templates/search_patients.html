@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Search Patients</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
     <div class="container">
         <h1>Search Patients</h1>
@@ -17,7 +19,7 @@
         <ul class="patient-list">
             {% for patient in all_patients %}
                 <li class="patient-item">
-                   <strong>UID:</strong> <a href="{{ url_for('open_view_patient', patient_id=patient['uid']) }}" style="color: #009688;">{{ patient['uid'] }}</a><br>
+                    <strong>UID:</strong> <a href="{{ url_for('open_view_patient', patient_id=patient['uid']) }}" style="color: #009688;">{{ patient['uid'] }}</a><br>
                     <strong>Name:</strong> {{ patient['name'] }}
                 </li>
             {% endfor %}
@@ -26,4 +28,5 @@
         <a href="/">Back</a>
     </div>
 </body>
+
 </html>

@@ -4,25 +4,12 @@
 <head>
     <title>View Patient</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-    </style>
 </head>
 
 <body>
     <div class="container">
         <h1>Patient Details</h1>
         <table>
-
             {% for key, value in patient.items() %}
                 <tr>
                     <td><strong>{{ key }}</strong></td>

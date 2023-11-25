@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <title>Add Patient</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
     <div class="container">
         <h1>Add Patient</h1>
         <form action="{{ url_for('add_patient') }}" method="POST">
-
             <label>Name:</label>
             <input type="text" name="name" required><br>
 
@@ -36,4 +37,5 @@
         <a href="/">Back</a>
     </div>
 </body>
+
 </html>

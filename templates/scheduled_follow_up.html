@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Upcoming Follow-ups</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
     <div class="container">
-    <h1>Upcoming Follow-ups</h1>
-    <ul>
-        {% for patient in upcoming_follow_ups %}
-            <br><li><strong>Name:</strong> {{ patient['Name'] }}</li>
-            <li><strong>Sex:</strong> {{ patient['Sex'] }}</li>
-            <li><strong>Age:</strong> {{ patient['Age'] }}</li>
-            <li><strong>Contact Number:</strong> {{ patient['Contact Number'] }}</li>
-            <li><strong>Next Follow-up Date:</strong> {{ patient['Next Follow-up Date'] }}</li><br>
-            <hr>
-        {% endfor %}
-    </ul>
-    <a href="/">Back</a>
+        <h1>Upcoming Follow-ups</h1>
+        <ul>
+            {% for patient in upcoming_follow_ups %}
+                <br><li><strong>Name:</strong> {{ patient['Name'] }}</li>
+                <li><strong>Sex:</strong> {{ patient['Sex'] }}</li>
+                <li><strong>Age:</strong> {{ patient['Age'] }}</li>
+                <li><strong>Contact Number:</strong> {{ patient['Contact Number'] }}</li>
+                <li><strong>Next Follow-up Date:</strong> {{ patient['Next Follow-up Date'] }}</li><br>
+                <hr>
+            {% endfor %}
+        </ul>
+        <a href="/">Back</a>
     </div>
 </body>
+
 </html>

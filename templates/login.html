@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <div class="header">
-        <h1>Login</h1>
-    </div>
 
+<body>
     <div class="container">
+        <h1>Login</h1> <!-- Include the title inside the container -->
         <form action="/login" method="post">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br>
@@ -26,5 +25,10 @@
             <button type="submit">Signup</button>
         </form>
     </div>
+
+    <div class="footer">
+        <p>Created and managed by <a href="https://github.com/RaafayUmar" target="_blank">Raafay Umar</a></p>
+    </div>
 </body>
+
 </html>
