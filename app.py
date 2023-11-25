@@ -109,6 +109,7 @@ def add_patient():
         file_path = os.path.join(path_to_data, file_name)
 
         with open(file_path, 'w') as file:
+            file.write(f'UID: {patient_id}\n')
             file.write(f"Date: {datetime.today().strftime('%Y-%m-%d')}\n")
             file.write(f'Name: {name}\n')
             file.write(f'Sex: {sex}\n')
@@ -231,19 +232,18 @@ def view_patient():
 @app.route('/search_patient', methods=['POST'])
 def search_patient():
     global file_path, patient
+    file_path = ''
     search_input = request.form['search_input'].upper()
-
     if len(search_input) >= 6:
         for patient in os.listdir(path_to_data):
-            if search_input.isnumeric() and search_input in patient:
-                file_path = os.path.join(path_to_data, patient)
-
-            elif search_input.isalnum() and search_input in patient:
+            if search_input.isnumeric() and search_input == patient.replace('.txt', '').split('_')[1]:
                 file_path = os.path.join(path_to_data, patient)
                 break
-        else:
-            # file_path = None
-            return "Patient not found"
+            elif search_input.isalnum() and search_input == patient.replace('.txt', '').split('_')[0]:
+                file_path = os.path.join(path_to_data, patient)
+                break
+    else:
+        return "Patient not found"
 
     if not os.path.exists(file_path):
         return "Patient not found"
