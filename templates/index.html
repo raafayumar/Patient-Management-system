@@ -15,11 +15,13 @@
         h1 {
             font-size: 36px;
             color: #009688; /* Darker Shade of Light Blue */
+            margin-bottom: 20px;
         }
 
-        p {
-            font-size: 18px;
+        .welcome-message {
+            font-size: 24px;
             color: #333333;
+            margin-bottom: 30px;
         }
 
         .button-container {
@@ -41,24 +43,40 @@
         .button:hover {
             background-color: #00796b; /* Slightly Darker Shade of Light Blue */
         }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            background-color: #f5f5f5;
+            width: 100%;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
-   <div class="header">
-    <h1>Welcome to the Patient Management System</h1>
-    {% if 'username' in session %}
-        <p>Welcome, Dr.{{ username }}!</p> <!-- Display the username -->
-        <div class="button-container">
-            <a class="button" href="/add_patient">Add New Patient</a>
-            <a class="button" href="/view_patient">View Patient</a>
-            <a class="button" href="/scheduled_follow_up">Scheduled Follow-ups</a>
-            <a class="button" href="/logout">Logout</a>
-        </div>
-    {% else %}
-        <div class="button-container">
-            <a class="button" href="/login">Login</a>
-        </div>
-    {% endif %}
-</div>
+    <div class="header">
+        <h1>Welcome to the Patient Management System</h1>
+        {% if 'username' in session %}
+            <p class="welcome-message">Hello, Dr.{{ username }}!</p>
+            <div class="button-container">
+                <a class="button" href="/add_patient">Add New Patient</a>
+                <a class="button" href="/view_patient">View Patient</a>
+                <a class="button" href="/scheduled_follow_up">Scheduled Follow-ups</a>
+                <a class="button" href="/logout">Logout</a>
+            </div>
+        {% else %}
+            <div class="button-container">
+                <a class="button" href="/login">Login</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="footer">
+        <p>Created and managed by <a href="https://github.com/RaafayUmar" target="_blank">Raafay Umar</a></p>
+    </div>
 </body>
 </html>
