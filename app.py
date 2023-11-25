@@ -115,8 +115,8 @@ def add_patient():
         with open(file_path, 'w') as file:
             file.write(f'UID: {patient_id}\n')
             file.write(f"Date: {datetime.today().strftime('%Y-%m-%d')}\n")
-            file.write(f'Name: {name}\n')
-            file.write(f'Sex: {sex}\n')
+            file.write(f'Name: {name.title()}\n')
+            file.write(f'Sex: {sex.upper()}\n')
             file.write(f'Age: {age}\n')
             file.write(f'Contact Number: {contact_number}\n')
             file.write(f'Diagnosis: {diagnosis}\n')
