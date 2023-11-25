@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import json
 
 path_to_data = r'patient_data'
+credentials_file = r'config\credentials.json'
 file_path = ''
 patient = {}
 
@@ -14,10 +15,34 @@ os.makedirs(os.path.join(current_path, path_to_data), exist_ok=True)
 app = Flask(__name__)
 app.secret_key = '47c27afab0bd14cdec75933666c92a587038f57c11c2a68a59d3b9800fb1d755'
 
-users = {
-    'razik': '123',
-    'nazima': '456'
-}
+users = {}
+
+# Initialize 'credentials.json' file
+if not os.path.exists(credentials_file):
+    with open(credentials_file, 'w') as cred_file:
+        json.dump(users, cred_file)
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        new_username = request.form['username']
+        new_password = request.form['password']
+
+        with open(credentials_file, 'r') as cred_file:
+            users = json.load(cred_file)
+
+        if new_username in users:
+            return "Username already exists. Please choose another username."
+
+        users[new_username] = new_password
+
+        with open(credentials_file, 'w') as cred_file:
+            json.dump(users, cred_file)
+
+        return redirect(url_for('login'))
+
+    return render_template('signup.html')
 
 
 def generate_unique_id():
@@ -290,6 +315,9 @@ def upcoming_follow_ups():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    with open(credentials_file, 'r') as cred_file:
+        users = json.load(cred_file)
+    print(users)
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
