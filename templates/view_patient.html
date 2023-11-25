@@ -26,7 +26,7 @@
             {% for key, value in patient.items() %}
                 <tr>
                     <td><strong>{{ key }}</strong></td>
-                    <td>{{ value|replace("'", "") }}</td>
+                    <td>{{ value|replace("\n", '<br>')|replace("'", "")|safe }}</td>
                 </tr>
             {% endfor %}
         </table><br>

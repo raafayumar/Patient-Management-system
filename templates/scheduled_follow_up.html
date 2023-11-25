@@ -9,12 +9,12 @@
     <h1>Upcoming Follow-ups</h1>
     <ul>
         {% for patient in upcoming_follow_ups %}
-            <li><strong>Name:</strong> {{ patient['Name'] }}</li><br><br>
-            <li><strong>Sex:</strong> {{ patient['Sex'] }}</li><br><br>
-            <li><strong>Age:</strong> {{ patient['Age'] }}</li><br><br>
-            <li><strong>Contact Number:</strong> {{ patient['Contact Number'] }}</li><br><br>
-            <li><strong>Next Follow-up Date:</strong> {{ patient['Next Follow-up Date'] }}</li>
-            <hr><br>
+            <br><li><strong>Name:</strong> {{ patient['Name'] }}</li>
+            <li><strong>Sex:</strong> {{ patient['Sex'] }}</li>
+            <li><strong>Age:</strong> {{ patient['Age'] }}</li>
+            <li><strong>Contact Number:</strong> {{ patient['Contact Number'] }}</li>
+            <li><strong>Next Follow-up Date:</strong> {{ patient['Next Follow-up Date'] }}</li><br>
+            <hr>
         {% endfor %}
     </ul>
     <a href="/">Back</a>

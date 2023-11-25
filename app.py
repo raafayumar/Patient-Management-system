@@ -8,6 +8,9 @@ path_to_data = r'patient_data'
 file_path = ''
 patient = {}
 
+current_path = os.getcwd()
+os.makedirs(os.path.join(current_path, path_to_data), exist_ok=True)
+
 app = Flask(__name__)
 app.secret_key = '47c27afab0bd14cdec75933666c92a587038f57c11c2a68a59d3b9800fb1d755'
 
@@ -17,13 +20,10 @@ users = {
 }
 
 
-# Function to generate a unique ID based on name and contact number
 def generate_unique_id():
-    # Create the 'config' folder if it doesn't exist
     config_folder_path = 'config'
     os.makedirs(config_folder_path, exist_ok=True)
 
-    # Load used IDs from the JSON file or create an empty list
     used_ids_file_path = os.path.join(config_folder_path, 'used_ids.json')
     used_ids = []
 
@@ -34,26 +34,17 @@ def generate_unique_id():
         except json.decoder.JSONDecodeError:
             pass
 
-    # Find the last used ID
     last_used_id = used_ids[-1] if used_ids else 0
-
-    # Increment the ID for the new patient
     new_id = last_used_id + 1
-
-    # Format the ID as 'FC_0001'
     formatted_id = f'FC{new_id:04d}'
-
-    # Add the new ID to the list of used IDs
     used_ids.append(new_id)
 
-    # Save the updated used IDs to the JSON file
     with open(used_ids_file_path, 'w') as file:
         json.dump(used_ids, file)
 
     return formatted_id
 
 
-# Decorator to enforce login
 def login_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -67,23 +58,14 @@ def login_required(func):
 def add_follow_up_to_file(file_path, diagnosis, prescription):
     with open(file_path, 'a') as file:
         file.write(f"Follow-up Date: {datetime.today().strftime('%Y-%m-%d')}\n")
-        if '\n' in diagnosis:
-            new_dea = diagnosis.split('\n')
-            file.write(f"Follow-up Diagnosis on {datetime.today().strftime('%Y-%m-%d')}: {new_dea}\n")
-        else:
-            file.write(f"Follow-up Prescription on {datetime.today().strftime('%Y-%m-%d')}: {diagnosis}\n")
-
-        if '\n' in prescription:
-            new_pre = prescription.split('\n')
-            file.write(f"Follow-up Prescription on {datetime.today().strftime('%Y-%m-%d')}: {new_pre}\n")
-        else:
-            file.write(f"Follow-up Prescription on {datetime.today().strftime('%Y-%m-%d')}: {prescription}\n")
+        file.write(f"Follow-up Diagnosis on {datetime.today().strftime('%Y-%m-%d')}: {diagnosis}\n")
+        file.write(f"Follow-up Prescription on {datetime.today().strftime('%Y-%m-%d')}: {prescription}\n")
 
 
 @app.route('/')
-@login_required  # Enforce login
+@login_required
 def index():
-    username = session['username']  # Get the username from the session
+    username = session['username']
     return render_template('index.html', username=username)
 
 
@@ -98,13 +80,10 @@ def add_patient():
         complaints_history = request.form['complaints_history']
         prescription = request.form['prescription']
 
-        # Generate a unique ID
         patient_id = generate_unique_id()
 
-        # Create a directory to store patient files if it doesn't exist
         os.makedirs('patient_data', exist_ok=True)
 
-        # Write patient data to a text file
         file_name = f'{patient_id}_{contact_number}.txt'
         file_path = os.path.join(path_to_data, file_name)
 
@@ -115,24 +94,9 @@ def add_patient():
             file.write(f'Sex: {sex}\n')
             file.write(f'Age: {age}\n')
             file.write(f'Contact Number: {contact_number}\n')
-
-            if '\n' in diagnosis:
-                new_dea = diagnosis.split('\n')
-                file.write(f'Diagnosis: {new_dea}\n')
-            else:
-                file.write(f'Diagnosis: {diagnosis}\n')
-
-            if '\n' in complaints_history:
-                new_comp = complaints_history.split('\n')
-                file.write(f'Complaints & History: {new_comp}\n')
-            else:
-                file.write(f'Complaints & History: {complaints_history}\n')
-
-            if '\n' in prescription:
-                new_pre = prescription.split('\n')
-                file.write(f'Prescription: {new_pre}\n')
-            else:
-                file.write(f'Prescription: {prescription}\n')
+            file.write(f'Diagnosis: {diagnosis}\n')
+            file.write(f'Complaints & History: {complaints_history}\n')
+            file.write(f'Prescription: {prescription}\n')
 
         return redirect(url_for('follow_up', patient_id=patient_id))
 
@@ -144,18 +108,16 @@ def follow_up(patient_id):
     global file_path
     if request.method == 'POST':
         follow_up_required = request.form['follow_up_required']
-        # Retrieve the value for follow_up_days from the form
         follow_up_days_str = request.form.get('follow_up_days')
 
-        # Check if the value is not empty before converting to an integer
         if follow_up_days_str and follow_up_days_str.isdigit():
             follow_up_days = int(follow_up_days_str)
         else:
-            follow_up_days = 0  # Set a default value if the conversion fails
+            follow_up_days = 0
 
-        for patient in os.listdir(path_to_data):
-            if patient_id in patient:
-                file_path = os.path.join(path_to_data, patient)
+        for patient_file in os.listdir(path_to_data):
+            if patient_id in patient_file:
+                file_path = os.path.join(path_to_data, patient_file)
                 break
 
         if not os.path.exists(file_path):
@@ -201,13 +163,10 @@ def add_follow_up(patient_id):
         diagnosis = request.form['diagnosis']
         prescription = request.form['prescription']
 
-        # Add follow-up details to the file
         add_follow_up_to_file(file_path, diagnosis, prescription)
 
-        # Redirect to view_patient page with the updated details
         return redirect(url_for('follow_up', patient_id=patient_id))
 
-    # Read patient details from the file
     with open(file_path, 'r') as file:
         patient_data = file.readlines()
 
@@ -224,9 +183,25 @@ def add_follow_up(patient_id):
 
 @app.route('/view_patient')
 def view_patient():
-    # Count patients and display IDs
     patient_files = os.listdir('patient_data')
-    return render_template('search_patients.html', num_patients=len(patient_files), patients=patient_files)
+    all_patients = []
+
+    for file in patient_files:
+        uid = file.split('_')[0]
+        contact_number = file.split('_')[1].replace('.txt', '')
+
+        file_path = os.path.join('patient_data', file)
+        with open(file_path, 'r') as file_content:
+            for line in file_content:
+                if line.startswith('Name:'):
+                    name = line.split(': ')[1].strip()
+                    break
+            else:
+                name = "Unknown"
+
+        all_patients.append({'uid': uid, 'name': name})
+
+    return render_template('search_patients.html', num_patients=len(patient_files), all_patients=all_patients)
 
 
 @app.route('/search_patient', methods=['POST'])
@@ -235,12 +210,12 @@ def search_patient():
     file_path = ''
     search_input = request.form['search_input'].upper()
     if len(search_input) >= 6:
-        for patient in os.listdir(path_to_data):
-            if search_input.isnumeric() and search_input == patient.replace('.txt', '').split('_')[1]:
-                file_path = os.path.join(path_to_data, patient)
+        for patient_file in os.listdir(path_to_data):
+            if search_input.isnumeric() and search_input == patient_file.replace('.txt', '').split('_')[1]:
+                file_path = os.path.join(path_to_data, patient_file)
                 break
-            elif search_input.isalnum() and search_input == patient.replace('.txt', '').split('_')[0]:
-                file_path = os.path.join(path_to_data, patient)
+            elif search_input.isalnum() and search_input == patient_file.replace('.txt', '').split('_')[0]:
+                file_path = os.path.join(path_to_data, patient_file)
                 break
     else:
         return "Patient not found"
@@ -255,19 +230,39 @@ def search_patient():
     for line in patient_data:
         key, value = line.strip().split(': ')
         if 'Diagnosis' or 'Complaints & History' or 'Prescription' in key:
-            # If the value is wrapped in square brackets, remove them and split the content
             value = value.strip('[]').replace(r'\r', '').split(', ')
-            # Join the values with newlines
             value = '\n'.join(value)
         patient[key] = value
 
     return render_template('view_patient.html', patient=patient, patient_id=search_input)
 
 
+@app.route('/open_view_patient/<string:patient_id>')
+def open_view_patient(patient_id):
+    file_path = ''
+
+    for patient_file in os.listdir(path_to_data):
+        if patient_id.isalnum() and patient_id == patient_file.replace('.txt', '').split('_')[0]:
+            file_path = os.path.join(path_to_data, patient_file)
+            break
+
+    with open(file_path, 'r') as file:
+        patient_data = file.readlines()
+
+    patient = {}
+    for line in patient_data:
+        key, value = line.strip().split(': ')
+        if 'Diagnosis' or 'Complaints & History' or 'Prescription' in key:
+            value = value.strip('[]').replace(r'\r', '').split(', ')
+            value = '\n'.join(value)
+        patient[key] = value
+
+    return render_template('view_patient.html', patient=patient, patient_id=patient_id)
+
+
 @app.route('/scheduled_follow_up')
 def upcoming_follow_ups():
     today = datetime.today().strftime('%Y-%m-%d')
-
     patient_files = os.listdir('patient_data')
     upcoming_follow_ups = []
 
@@ -277,12 +272,9 @@ def upcoming_follow_ups():
 
         patient = {}
         for line in patient_data:
-            # print(patient_file)
             key, value = line.strip().split(': ')
             if 'Diagnosis' or 'Complaints & History' or 'Prescription' in key:
-                # If the value is wrapped in square brackets, remove them and split the content
                 value = value.strip('[]').replace(r'\r', '').split(', ')
-                # Join the values with newlines
                 value = '\n'.join(value)
             patient[key] = value
 
@@ -291,7 +283,6 @@ def upcoming_follow_ups():
             if follow_up_date >= today:
                 upcoming_follow_ups.append(patient)
 
-    # Sort the list based on 'Next Follow-up Date'
     upcoming_follow_ups.sort(key=lambda x: x.get('Next Follow-up Date'))
 
     return render_template('scheduled_follow_up.html', upcoming_follow_ups=upcoming_follow_ups)

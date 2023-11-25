@@ -6,13 +6,24 @@
 </head>
 <body>
     <div class="container">
-         <h1>Search Patients</h1>
-         <p>You have {{ num_patients }} patients.</p> <!-- Display the number of patients -->
-    <form action="/search_patient" method="post">
-        <input type="text" name="search_input" placeholder="Enter ID or Contact Number" required>
-        <button type="submit">Search</button><br><br>
-    </form>
-    <a href="/">Back</a>
+        <h1>Search Patients</h1>
+        <p>You have {{ num_patients }} patients.</p> <!-- Display the number of patients -->
+        <form action="/search_patient" method="post">
+            <input type="text" name="search_input" placeholder="Enter ID or Contact Number" required>
+            <button type="submit">Search</button><br><br>
+        </form>
+
+        <h2>All Patients</h2>
+        <ul class="patient-list">
+            {% for patient in all_patients %}
+                <li class="patient-item">
+                   <strong>UID:</strong> <a href="{{ url_for('open_view_patient', patient_id=patient['uid']) }}" style="color: #009688;">{{ patient['uid'] }}</a><br>
+                    <strong>Name:</strong> {{ patient['name'] }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="/">Back</a>
     </div>
 </body>
 </html>

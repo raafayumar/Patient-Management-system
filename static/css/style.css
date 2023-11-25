@@ -1,3 +1,5 @@
+/* Your existing styles */
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
@@ -68,27 +70,26 @@ ul {
 }
 
 li {
-    display: inline;
-    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 li a {
     color: #333333;
     font-weight: bold;
 }
-/* Add this section to your existing style.css */
-.actions {
+
+/* Additional styles for the "All Patients" section */
+
+.patient-list {
     list-style-type: none;
     padding: 0;
 }
 
-.actions li {
-    margin-bottom: 10px;
+.patient-item {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
 }
 
-.patient-info {
-    border-bottom: 1px solid #ccc; /* Adds a 1px solid border at the bottom */
-    padding-bottom: 10px; /* Adds some space between patients */
+.patient-item:last-child {
+    border-bottom: none; /* Remove border from the last item */
 }
-
-
