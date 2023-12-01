@@ -1,3 +1,22 @@
+/* Color Variables */
+:root {
+    --primary-color: #009688; /* Darker Shade of Light Blue */
+    --secondary-color: #00796b; /* Slightly Darker Shade of Light Blue */
+    --background-color: #f5f5f5;
+    --container-background: #ffffff;
+    --container-shadow: rgba(0, 0, 0, 0.1);
+    --text-color: #333333;
+    --link-color: #009688; /* Darker Shade of Light Blue */
+    --form-border: #cccccc;
+    --button-bg: #009688;
+    --button-hover-bg: #00796b;
+    --header-bg: #e0f2f0;
+    --footer-bg: #f5f5f5;
+    --footer-shadow: rgba(0, 0, 0, 0.1);
+    --table-border: #ddd;
+    --welcome-message-color: #191919; /* Darker Shade of Light Blue */
+}
+
 /* Reset some default styles for consistency across browsers */
 body, h1, h2, p, ul, li {
     margin: 0;
@@ -6,7 +25,7 @@ body, h1, h2, p, ul, li {
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    background-color: var(--background-color);
     margin: 0;
     padding: 0;
 }
@@ -14,20 +33,20 @@ body {
 .container {
     max-width: 800px;
     margin: 0 auto;
-    background-color: #ffffff;
+    background-color: var(--container-background);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px var(--container-shadow);
 }
 
 h1 {
-    color: #009688; /* Darker Shade of Light Blue */
+    color: var(--primary-color);
     text-align: center;
 }
 
 p {
     font-size: 18px;
-    color: #333333;
+    color: var(--text-color);
 }
 
 form {
@@ -47,13 +66,13 @@ textarea {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--form-border);
     border-radius: 4px;
     box-sizing: border-box;
 }
 
 button {
-    background-color: #009688; /* Darker Shade of Light Blue */
+    background-color: var(--button-bg);
     color: white;
     padding: 10px 20px;
     border: none;
@@ -63,12 +82,12 @@ button {
 }
 
 button:hover {
-    background-color: #00796b; /* Slightly Darker Shade of Light Blue */
+    background-color: var(--button-hover-bg);
 }
 
 a {
     text-decoration: none;
-    color: #009688; /* Darker Shade of Light Blue */
+    color: var(--link-color);
 }
 
 ul {
@@ -81,7 +100,7 @@ li {
 }
 
 li a {
-    color: #333333;
+    color: var(--text-color);
     font-weight: bold;
 }
 
@@ -89,12 +108,12 @@ li a {
 .header {
     text-align: center;
     padding: 100px;
-    background-color: #e0f2f1;
+    background-color: var(--header-bg);
 }
 
 h2 {
     font-size: 24px;
-    color: #333333;
+    color: var(--text-color);
     margin-bottom: 10px;
 }
 
@@ -107,7 +126,7 @@ h2 {
     display: inline-block;
     padding: 10px 20px;
     font-size: 18px;
-    background-color: #009688;
+    background-color: var(--button-bg);
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -115,7 +134,7 @@ h2 {
 }
 
 .button:hover {
-    background-color: #00796b;
+    background-color: var(--button-hover-bg);
 }
 
 .footer {
@@ -124,16 +143,14 @@ h2 {
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    background-color: #f5f5f5;
+    background-color: var(--footer-bg);
     width: 100%;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px var(--footer-shadow);
     font-family: 'Comfortaa', serif;
-
 }
 
 /* Additional styles for the "All Patients" section */
-
 .patient-list {
     list-style-type: none;
     padding: 0;
@@ -157,7 +174,7 @@ table {
 th, td {
     padding: 10px;
     text-align: left;
-    border: 1px solid #ddd;
+    border: 1px solid var(--table-border);
 }
 
 /* Additional styles for the "View Patient" page buttons */
@@ -171,22 +188,26 @@ th, td {
 }
 
 h1 {
-    color: #009688; /* Darker Shade of Light Blue */
+    color: var(--primary-color);
     text-align: center;
     margin-bottom: 20px; /* Increase the margin-bottom for more space */
 }
 
 .welcome-message {
     font-size: 24px;
-    color: #333333; /* Darker Shade of Light Blue */
+    color: var(--welcome-message-color);
     margin-bottom: 30px;
-    font-weight: bold; /* Add bold font weight for emphasis */
+    font-weight: bold;
     font-family: 'Comfortaa', serif;
-
 }
 
 /* Additional styles for the main title on the index page */
 .header h1 {
     font-weight: bold;
     font-family: 'Comfortaa', serif; /* Apply Josefin Slab font to the main title */
+}
+
+.center-buttons {
+    display: flex;
+    justify-content: center;
 }

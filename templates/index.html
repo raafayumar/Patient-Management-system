@@ -16,10 +16,12 @@
         {% if 'username' in session %}
             <p class="welcome-message">Hello, Dr.{{ username }}!</p>
             <div class="button-container">
-                <a class="button" href="/add_patient">Add New Patient</a>
-                <a class="button" href="/view_patient">View Patient</a>
-                <a class="button" href="/scheduled_follow_up">Scheduled Follow-ups</a>
-                <a class="button" href="/logout">Logout</a>
+                <div class="center-buttons">
+                    <a class="button" href="/add_patient">Add New Patient</a>
+                    <a class="button" href="/view_patient">View Patient</a>
+                    <a class="button" href="/scheduled_follow_up">Scheduled Follow-ups</a>
+                    <a class="button" href="/logout">Logout</a>
+                </div>
             </div>
         {% else %}
             <div class="button-container">
@@ -27,6 +29,7 @@
             </div>
         {% endif %}
     </div>
+
 
     <div class="footer">
         <p>Created and managed by <a href="https://github.com/RaafayUmar" target="_blank">Raafay Umar</a></p>
