@@ -119,9 +119,23 @@ def add_patient():
             file.write(f'Sex: {sex.upper()}\n')
             file.write(f'Age: {age}\n')
             file.write(f'Contact Number: {contact_number}\n')
-            file.write(f'Diagnosis: {diagnosis}\n')
-            file.write(f'Complaints & History: {complaints_history}\n')
-            file.write(f'Prescription: {prescription}\n')
+            if '\n' in diagnosis:
+                new_dea = diagnosis.split('\n')
+                file.write(f'Diagnosis: {new_dea}\n')
+            else:
+                file.write(f'Diagnosis: {diagnosis}\n')
+
+            if '\n' in complaints_history:
+                new_comp = complaints_history.split('\n')
+                file.write(f'Complaints & History: {new_comp}\n')
+            else:
+                file.write(f'Complaints & History: {complaints_history}\n')
+
+            if '\n' in prescription:
+                new_pre = prescription.split('\n')
+                file.write(f'Prescription: {new_pre}\n')
+            else:
+                file.write(f'Prescription: {prescription}\n')
 
         return redirect(url_for('follow_up', patient_id=patient_id))
 
