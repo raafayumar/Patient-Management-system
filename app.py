@@ -5,12 +5,13 @@ from datetime import datetime, timedelta
 import json
 
 path_to_data = r'patient_data'
-credentials_file = r'config\credentials.json'
 file_path = ''
 patient = {}
 
 current_path = os.getcwd()
 os.makedirs(os.path.join(current_path, path_to_data), exist_ok=True)
+
+credentials_file = os.path.join(current_path, r'config\credentials.json')
 
 app = Flask(__name__)
 app.secret_key = '47c27afab0bd14cdec75933666c92a587038f57c11c2a68a59d3b9800fb1d755'
@@ -19,6 +20,7 @@ users = {}
 
 # Initialize 'credentials.json' file
 if not os.path.exists(credentials_file):
+    os.makedirs(os.path.join(current_path, 'config'), exist_ok=True)
     with open(credentials_file, 'w') as cred_file:
         json.dump(users, cred_file)
 
