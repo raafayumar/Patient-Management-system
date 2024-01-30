@@ -5,13 +5,12 @@ from datetime import datetime, timedelta
 import json
 
 path_to_data = r'patient_data'
+credentials_file = r'config\credentials.json'
 file_path = ''
 patient = {}
 
 current_path = os.getcwd()
 os.makedirs(os.path.join(current_path, path_to_data), exist_ok=True)
-
-credentials_file = os.path.join(current_path, r'config\credentials.json')
 
 app = Flask(__name__)
 app.secret_key = '47c27afab0bd14cdec75933666c92a587038f57c11c2a68a59d3b9800fb1d755'
@@ -20,7 +19,6 @@ users = {}
 
 # Initialize 'credentials.json' file
 if not os.path.exists(credentials_file):
-    os.makedirs(os.path.join(current_path, 'config'), exist_ok=True)
     with open(credentials_file, 'w') as cred_file:
         json.dump(users, cred_file)
 
@@ -85,8 +83,17 @@ def login_required(func):
 def add_follow_up_to_file(file_path, diagnosis, prescription):
     with open(file_path, 'a') as file:
         file.write(f"Follow-up Date: {datetime.today().strftime('%Y-%m-%d')}\n")
-        file.write(f"Follow-up Diagnosis on {datetime.today().strftime('%Y-%m-%d')}: {diagnosis}\n")
-        file.write(f"Follow-up Prescription on {datetime.today().strftime('%Y-%m-%d')}: {prescription}\n")
+        if '\n' in diagnosis:
+            new_diag = diagnosis.split('\n')
+            file.write(f"Follow-up Diagnosis on {datetime.today().strftime('%Y-%m-%d')}: {new_diag}\n")
+        else:
+            file.write(f"Follow-up Diagnosis on {datetime.today().strftime('%Y-%m-%d')}: {diagnosis}\n")
+
+        if '\n' in prescription:
+            new_pre = prescription.split('\n')
+            file.write(f"Follow-up Prescription on {datetime.today().strftime('%Y-%m-%d')}: {new_pre}\n")
+        else:
+            file.write(f"Follow-up Prescription on {datetime.today().strftime('%Y-%m-%d')}: {prescription}\n")
 
 
 @app.route('/')
