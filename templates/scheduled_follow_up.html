@@ -12,6 +12,7 @@
         <ul>
             {% for patient in upcoming_follow_ups %}
                 <br><li><strong>Name:</strong> {{ patient['Name'] }}</li>
+                <li><strong>UID:</strong> {{ patient['UID'] }}</li>
                 <li><strong>Sex:</strong> {{ patient['Sex'] }}</li>
                 <li><strong>Age:</strong> {{ patient['Age'] }}</li>
                 <li><strong>Contact Number:</strong> {{ patient['Contact Number'] }}</li>
