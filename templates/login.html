@@ -6,11 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
+<div class="auth-page">
     <div class="container">
-        <h1>Login</h1> <!-- Include the title inside the container -->
+        <h1>Login</h1>
         <form action="/login" method="post">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br>
@@ -25,9 +27,15 @@
             <button type="submit">Signup</button>
         </form>
     </div>
+</div>
 
-    <div class="footer">
-        <p>Created and managed by <a href="https://github.com/RaafayUmar" target="_blank">Raafay Umar</a></p>
+<div class="footer">
+        <div class="footer-content">
+            <div class="footer-text">
+                <p>Created and managed by <a href="https://github.com/RaafayUmar" target="_blank">Raafay Umar</a></p><br>
+                <p class="small-text">For support, email us at <a href="mailto:support@innovatewithraafay.com">support@innovatewithraafay.com</a></p>
+            </div>
+        </div>
     </div>
 </body>
 

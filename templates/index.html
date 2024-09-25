@@ -7,14 +7,13 @@
     <title>Welcome to the Patient Management System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
-
 </head>
 
 <body>
     <div class="header">
         <h1>Welcome to the Patient Management System</h1>
         {% if 'username' in session %}
-            <p class="welcome-message">Hello, Dr.{{ username }}!</p>
+            <p class="welcome-message">Hello, Dr {{ username }}!</p>
             <div class="button-container">
                 <div class="center-buttons">
                     <a class="button" href="/add_patient">Add New Patient</a>
@@ -30,10 +29,15 @@
         {% endif %}
     </div>
 
-
     <div class="footer">
-        <p>Created and managed by <a href="https://github.com/RaafayUmar" target="_blank">Raafay Umar</a></p>
+        <div class="footer-content">
+            <div class="footer-text">
+                <p>Created and managed by <a href="https://github.com/RaafayUmar" target="_blank">Raafay Umar</a></p><br>
+                <p class="small-text">For support, email us at <a href="mailto:support@innovatewithraafay.com">support@innovatewithraafay.com</a></p>
+            </div>
+        </div>
     </div>
+
 </body>
 
 </html>
