@@ -1,20 +1,20 @@
 /* Color Variables */
 :root {
-    --primary-color: #009688; /* Teal */
-    --secondary-color: #00796b; /* Darker Teal */
-    --background-color: #f5f5f5; /* Light Background */
-    --container-background: #ffffff; /* White Container Background */
-    --container-shadow: rgba(0, 0, 0, 0.1);
-    --text-color: #333333; /* Dark Text */
-    --link-color: #009688; /* Teal Link Color */
-    --form-border: #cccccc; /* Light Border */
-    --button-bg: #009688; /* Teal Button */
-    --button-hover-bg: #00796b; /* Darker Teal Button on Hover */
-    --header-bg: #e0f2f0; /* Light Header Background */
-    --footer-bg: #f5f5f5; /* Light Footer Background */
-    --footer-shadow: rgba(0, 0, 0, 0.1);
-    --table-border: #ddd; /* Light Table Border */
-    --welcome-message-color: #333333; /* Darker Text Color */
+    --primary-color: #80cbc4; /* Lighter Shade of Teal */
+    --secondary-color: #004d40; /* Darker Teal */
+    --background-color: #121212; /* Dark Background */
+    --container-background: #1e1e1e; /* Darker Container */
+    --container-shadow: rgba(255, 255, 255, 0.1);
+    --text-color: #e0e0e0; /* Light Text */
+    --link-color: #80cbc4; /* Lighter Teal */
+    --form-border: #4a4a4a; /* Lighter Dark Border */
+    --button-bg: #004d40; /* Darker Button */
+    --button-hover-bg: #00695c; /* Lighter Button Hover */
+    --header-bg: #1c1c1c; /* Dark Header Background */
+    --footer-bg: #1e1e1e; /* Dark Footer Background */
+    --footer-shadow: rgba(255, 255, 255, 0.1);
+    --table-border: #333; /* Darker Border for Tables */
+    --welcome-message-color: #80cbc4; /* Lighter Teal */
 }
 
 /* Reset some default styles for consistency across browsers */
@@ -28,7 +28,7 @@ body {
     background-color: var(--background-color);
     margin: 0;
     padding: 0;
-    color: var(--text-color); /* Ensure default text is dark */
+    color: var(--text-color); /* Ensure default text is light */
 }
 
 .container {
@@ -58,21 +58,21 @@ label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: var(--text-color); /* Label text should be dark */
+    color: var(--text-color); /* Ensure label text is light */
 }
 
 input[type="text"],
 input[type="password"],
-input[type="email"],
-input[type="tel"] {
+input[type="number"],
+textarea {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 8px;
+    margin-bottom: 10px;
     border: 1px solid var(--form-border);
-    border-radius: 5px;
-    background-color: #fff; /* Light input background */
-    color: #333; /* Dark input text */
+    border-radius: 4px;
     box-sizing: border-box;
+    background-color: #333; /* Darker input background */
+    color: #fff; /* Ensure input text is white */
 }
 
 button {
@@ -199,7 +199,7 @@ h1 {
 
 .welcome-message {
     font-size: 24px;
-    color: var(--welcome-message-color); /* Dark text */
+    color: var(--welcome-message-color);
     margin-bottom: 30px;
     font-weight: bold;
     font-family: 'Comfortaa', serif;
@@ -207,6 +207,20 @@ h1 {
 
 /* Additional styles for the main title on the index page */
 .header h1 {
+    font-weight: bold;
+    font-family: 'Comfortaa', serif; /* Apply Josefin Slab font to the main title */
+}
+
+.center-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+/* Welcome message styling */
+.welcome-message {
+    font-size: 24px;
+    color: white; /* Set to white */
+    margin-bottom: 30px;
     font-weight: bold;
     font-family: 'Comfortaa', serif;
 }
@@ -217,11 +231,11 @@ h1 {
     justify-content: center; /* Center container horizontally */
     align-items: center; /* Center container vertically */
     height: 100vh; /* Full viewport height */
-    background-color: var(--background-color); /* Light background */
+    background-color: var(--background-color); /* Dark background */
 }
 
 .auth-page .container {
-    background-color: var(--container-background); /* Light container background */
+    background-color: var(--container-background); /* Dark container background */
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px var(--container-shadow);
@@ -233,14 +247,14 @@ h1 {
 .auth-page h1 {
     text-align: center; /* Only the title will be centered */
     margin-bottom: 20px;
-    color: var(--primary-color); /* Set primary color for title */
+    color: var(--primary-color); /* Primary color for title */
 }
 
 .auth-page label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: var(--text-color); /* Ensure labels have dark color */
+    color: var(--text-color); /* Label text should be light in dark mode */
 }
 
 .auth-page input[type="text"],
@@ -252,8 +266,8 @@ h1 {
     margin-bottom: 15px;
     border: 1px solid var(--form-border);
     border-radius: 5px;
-    background-color: #fff; /* Light background for inputs */
-    color: #333; /* Dark text inside inputs */
+    background-color: #333; /* Darker input background */
+    color: #fff; /* White input text */
     box-sizing: border-box;
 }
 
@@ -273,9 +287,6 @@ h1 {
     background-color: var(--button-hover-bg);
 }
 
-.auth-page a, .auth-page p {
-    color: var(--text-color); /* Ensure links and other text are dark */
-}
 
 /* Footer content styling */
 .footer-content {
