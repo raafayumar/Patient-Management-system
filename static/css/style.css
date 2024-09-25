@@ -288,8 +288,30 @@ h1 {
 }
 
 
-/* Smaller font for support email */
-.small-text {
-    font-size: 12px; /* Adjust this size as necessary */
-    color: var(--text-color); /* Ensure it matches the dark mode theme */
+/* Footer content styling */
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* Ensures logo is on the left, text on the right */
+    align-items: center;
+    width: 100%;
+    text-align: center; /* Ensures text is centered */
 }
+
+/* Footer logo styling */
+.footer-logo {
+    height: 60px; /* Dynamically adjust the height to your preference */
+    width: auto; /* Maintain the aspect ratio */
+    margin-left: 15px; /* Adds space between the logo and the left side */
+}
+
+/* Footer text styling */
+.footer-text {
+    flex-grow: 1; /* This will push the text to take full width and allow the text to remain centered */
+    text-align: center; /* Center the text within the available space */
+}
+
+.small-text {
+    font-size: 12px; /* Adjust font size as necessary */
+    color: var(--text-color); /* Ensures text color matches the theme */
+}
+
