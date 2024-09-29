@@ -287,10 +287,21 @@ def view_patients():
     if not os.path.exists(doctor_folder):
         return "No patients found for this doctor."
 
+    # Get the list of patient files
     patient_files = os.listdir(doctor_folder)
+
+    # Function to extract the FCXXXX number from the filename
+    def extract_serial_number(file_name):
+        # Assuming file format is: doctorname_FCXXXX_phonenumber.txt
+        serial_number_part = file_name.split('_')[1]  # Extract 'FCXXXX'
+        return int(serial_number_part[2:])  # Extract XXXX and convert to int for sorting
+
+    # Sort the files based on the FCXXXX part of the filename
+    sorted_patient_files = sorted(patient_files, key=extract_serial_number)
+
     all_patients = []
 
-    for file in patient_files:
+    for file in sorted_patient_files:
         uid = file.split('_')[1]
         contact_number = file.split('_')[2].replace('.txt', '')
 
@@ -302,6 +313,7 @@ def view_patients():
         all_patients.append({'uid': uid, 'name': patient.get('Name', 'Unknown'), 'contact': contact_number})
 
     return render_template('search_patients.html', num_patients=len(patient_files), all_patients=all_patients)
+
 
 
 @app.route('/search_patient', methods=['POST'])
