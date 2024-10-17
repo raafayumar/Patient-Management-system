@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from user_agents import parse
 from functools import wraps
 import os
 from datetime import datetime, timedelta
@@ -15,6 +16,7 @@ os.makedirs(path_to_data, exist_ok=True)
 credentials_file_path = os.path.join(current_path, 'config')
 
 app = Flask(__name__)
+
 app.secret_key = os.environ.get('SECRET_KEY') or os.urandom(24)
 
 users = {}
@@ -315,7 +317,6 @@ def view_patients():
     return render_template('search_patients.html', num_patients=len(patient_files), all_patients=all_patients)
 
 
-
 @app.route('/search_patient', methods=['POST'])
 @login_required
 def search_patient():
@@ -399,6 +400,51 @@ def upcoming_follow_ups():
 def login():
     with open(os.path.join(credentials_file_path, 'credentials.json'), 'r') as cred_file:
         users = json.load(cred_file)
+
+    # Check for the X-Forwarded-For header (if behind a proxy like ngrok)
+    if request.headers.getlist("X-Forwarded-For"):
+        client_ip = request.headers.getlist("X-Forwarded-For")[0]
+    else:
+        client_ip = request.remote_addr
+
+    # Get the current timestamp and date
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    # Get the User-Agent from the headers
+    user_agent = request.headers.get('User-Agent')
+
+    # Parse the user-agent using the user_agents library
+    parsed_ua = parse(user_agent)
+
+    # Extract device, OS, and browser information
+    device_info = {
+        "Browser": parsed_ua.browser.family,
+        "Browser Version": parsed_ua.browser.version_string,
+        "Operating System": parsed_ua.os.family,
+        "OS Version": parsed_ua.os.version_string,
+        "Device Type": parsed_ua.device.family,
+        "Is Mobile": parsed_ua.is_mobile,
+        "Is Tablet": parsed_ua.is_tablet,
+        "Is PC": parsed_ua.is_pc,
+        "Is Bot": parsed_ua.is_bot,
+    }
+
+    # Create a log entry string
+    log_entry = (
+        f"{timestamp} - IP Address: {client_ip}\n"
+        f"Browser: {device_info['Browser']} {device_info['Browser Version']}\n"
+        f"Operating System: {device_info['Operating System']} {device_info['OS Version']}\n"
+        f"Device Type: {device_info['Device Type']}\n"
+        f"Is Mobile: {device_info['Is Mobile']}\n"
+        f"Is Tablet: {device_info['Is Tablet']}\n"
+        f"Is PC: {device_info['Is PC']}\n"
+        f"Is Bot: {device_info['Is Bot']}\n"
+        "----------------------------------------\n"
+    )
+
+    # Write the log entry to a file
+    with open("ip_log.txt", "a") as log_file:
+        log_file.write(log_entry)
 
     if request.method == 'POST':
         username = request.form['username'].lower()
